@@ -1,5 +1,6 @@
 import random
 import matplotlib.pyplot as plt
+import numpy as np
 class human:#human
     def __init__ (self, id, x, y):
         self.id = id#id
@@ -7,6 +8,8 @@ class human:#human
         self.x = x
         self.y = y
         self.life = 1
+        self.relation = np.zeros(100)
+        self.relation[id] = 20
         #self.energy=0
     def migration (self, x, y):#migration
         self.x += x
