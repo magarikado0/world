@@ -16,5 +16,5 @@ while(count<10):
     mwc.plot_all(all_human,all_animal)
     for i in all_human:
         i.migration(1,1)
-    time.sleep(0.5)
+    time.sleep(0.4)
     count+=1
