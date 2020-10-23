@@ -61,4 +61,4 @@ def plot_all(human, carnivore, herbivore, grass):
     for i in grass:
         if i.life == 1:
             plt.scatter(i.x, i.y, s=5, c="green")
-    plt.pause(0.2)
+    plt.pause(0.5)
