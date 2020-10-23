@@ -41,7 +41,7 @@ class herbivore(existance):
     def __init__(self, id, x, y):
         super(herbivore, self).__init__(id, x, y)
     def eat(self, grass):
-        grass.lire = 0
+        grass.life = 0
 
 class grass(existance):
     def __init__(self, id, x, y):
