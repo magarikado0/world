@@ -2,7 +2,6 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 class existance:
     def __init__(self, id, x, y):
         self.id = 0
