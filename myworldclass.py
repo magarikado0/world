@@ -48,7 +48,7 @@ class grass(existance):
         super(grass, self).__init__(id, x, y)
 
 def plot_all(human, carnivore, herbivore, grass):
-    plt.cla()
+    plt.clf()
     for i in human:
         if i.life == 1:
             plt.scatter(i.x, i.y, s=5, c="brown")
