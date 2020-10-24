@@ -10,6 +10,7 @@ human = []
 carnivore= []
 herbivore = []
 grass = []
+tree_nut = []
 
 count = 0
 
@@ -24,9 +25,12 @@ for i in range(10):
 
 for i in range(10):
     grass.append(mwc.grass(i, random.randint(0,100), random.randint(0, 100)))
+
+for i in range(10):
+    tree_nut.append(mwc.tree_nut(i, random.randint(0, 100), random.randint(0, 100)))
     
 while(count<10):
-    mwc.plot_all(human, carnivore, herbivore, grass)
+    mwc.plot_all(human, carnivore, herbivore, grass, tree_nut)
     for i in human:
         i.migration(1, 1)
     count += 1

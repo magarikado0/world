@@ -2,9 +2,9 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-class existance:
+class animal:
     def __init__(self, id, x, y):
-        self.id = 0
+        self.id = id
         self.x = x
         self.y = y
         self.life = 1
@@ -20,45 +20,64 @@ class existance:
             self.y = 100
         elif self.y < 0:
             self.y = 0
+    def eat(self, prey):
+        prey.life = 0
+        if type(prey) == grass:
+            self.food_want -= 10
+        elif type(prey) == tree_nut:
+            self.food_want -= 20
 
-class human(existance):#human
+class human(animal):#human
     def __init__(self, id, x, y):
         super(human, self).__init__(id, x, y)
         self.relation = np.zeros(100)
         self.relation[id] = 0
-    def eat (self, animal):#eat
-        self.food_want -= 80
-        animal.life = 0
 
-class carnivore(existance):
+class carnivore(animal):
     def __init__(self, id, x, y):
         super(carnivore, self).__init__(id, x, y)
-    def eat(self, prey):
-        self.food_want -=10
-        prey.life = 0
+        self.speed = random.randint(20, 80)
+        self.strength = 100 - self.speed
 
-class herbivore(existance):
+class herbivore(animal):
     def __init__(self, id, x, y):
         super(herbivore, self).__init__(id, x, y)
-    def eat(self, grass):
-        grass.life = 0
+        self.speed = random.randint(20, 80)
+        self.strengh = 100 - self.speed
 
-class grass(existance):
+
+class plant:
+    def __init__(self, id, x, y):
+        self.id = id
+        self.x = x
+        self.y = y
+        self.life = 1
+    def rebirth(self):
+        self.life = 1
+
+class grass(plant):
     def __init__(self, id, x, y):
         super(grass, self).__init__(id, x, y)
 
-def plot_all(human, carnivore, herbivore, grass):
+class tree_nut(plant):
+    def __init__(self, id, x, y):
+        super(tree_nut, self).__init__(id, x, y)
+
+def plot_all(humans, carnivores, herbivores, grasses, tree_nuts):
     plt.clf()
-    for i in human:
+    for i in humans:
         if i.life == 1:
             plt.scatter(i.x, i.y, s=5, c="brown")
-    for i in carnivore:
+    for i in carnivores:
         if i.life == 1:
             plt.scatter(i.x, i.y, s=5, c="red")
-    for i in herbivore:
+    for i in herbivores:
         if i.life == 1:
             plt.scatter(i.x, i.y, s=5, c="blue")
-    for i in grass:
+    for i in grasses:
         if i.life == 1:
             plt.scatter(i.x, i.y, s=5, c="green")
+    for i in tree_nuts:
+        if i.life == 1:
+            plt.scatter(i.x, i.y, s=5, c="pink")
     plt.pause(0.5)
