@@ -32,6 +32,8 @@ class human(animal):#human
         super(human, self).__init__(id, x, y)
         self.relation = np.zeros(100)
         self.relation[id] = 0
+        self.speed = random.randint(20, 80)
+        self.speed = random.randint(20, 80)
 
 class carnivore(animal):
     def __init__(self, id, x, y):
