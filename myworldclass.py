@@ -9,9 +9,15 @@ class animal:
         self.y = y
         self.life = 1
         self.food_want = 100
-    def migration(self, x, y):#migration
-        self.x += x
-        self.y += y
+    def migration(self, goal_x, goal_y):#migration
+        if goal_x - self.x > 0:
+            self.x += self.speed
+        elif goal_x - self.x < 0:
+            self.x -= self.speed
+        if goal_y - self.y > 0:
+            self.y += self.speed
+        elif goal_y - self.y < 0:
+            self.y -= self.speed
         if self.x > 100:
             self.x = 100
         elif self.x < 0:
@@ -26,25 +32,28 @@ class animal:
             self.food_want -= 10
         elif type(prey) == tree_nut:
             self.food_want -= 20
+        elif type(prey) == carnivore:
+            self.food_want -= 30
+        else:
+            self.food_want -= 20
 
 class human(animal):#human
     def __init__(self, id, x, y):
         super(human, self).__init__(id, x, y)
         self.relation = np.zeros(100)
         self.relation[id] = 0
-        self.speed = random.randint(20, 80)
-        self.speed = random.randint(20, 80)
+        self.speed = random.randint(1, 3)
 
 class carnivore(animal):
     def __init__(self, id, x, y):
         super(carnivore, self).__init__(id, x, y)
-        self.speed = random.randint(20, 80)
+        self.speed = random.randint(1, 3)
         self.strength = 100 - self.speed
 
 class herbivore(animal):
     def __init__(self, id, x, y):
         super(herbivore, self).__init__(id, x, y)
-        self.speed = random.randint(20, 80)
+        self.speed = random.randint(1, 3)
         self.strengh = 100 - self.speed
 
 
@@ -64,6 +73,7 @@ class grass(plant):
 class tree_nut(plant):
     def __init__(self, id, x, y):
         super(tree_nut, self).__init__(id, x, y)
+
 
 def plot_all(humans, carnivores, herbivores, grasses, tree_nuts):
     plt.clf()
