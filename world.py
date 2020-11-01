@@ -13,7 +13,7 @@ grass = []
 tree_nut = []
 dis_min = 20000
 min_index = 0
-eatcount = np.zeros(8, dtype=np.int32)#0:hc 1:hb 2:ht 3:ch 4:cb 5:ct 6:bg 7:bt
+eatcount = np.zeros(8, dtype=np.int8)#0:hc 1:hb 2:ht 3:ch 4:cb 5:ct 6:bg 7:bt
 
 count = 0
 human = mwc.setlist(human, 1)

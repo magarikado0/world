@@ -8,7 +8,7 @@ class animal:
         self.x = x
         self.y = y
         self.life = 1
-        self.food_want = 60
+        self.food_want = 100
 
     def migrate(self, goal_x, goal_y):#migration
         if goal_x - self.x > 0:
@@ -27,15 +27,16 @@ class animal:
             self.y = 100
         elif self.y < 0:
             self.y = 0
-        #self.food_want += 5
+        if self.food_want <= 95:
+            self.food_want += 5
 
     def eat(self, prey, eatcounts):
         prey.life = 0
         if type(prey) == grass:
-            #self.food_want -= 10
+            self.food_want -= 10
             eatcounts[6] += 1
         elif type(prey) == tree_nut:
-            #self.food_want -= 20
+            self.food_want -= 20
             if type(self) == human:
                 eatcounts[2] += 1
             elif type(self) == carnivore:
@@ -43,16 +44,16 @@ class animal:
             else:
                 eatcounts[7] +=1
         elif type(prey) == carnivore:
-            #self.food_want -= 40
+            self.food_want -= 40
             eatcounts[0] += 1
         elif type(prey) == human:
             #self.food_want -= 30
             eatcounts[3] += 1
         else:
-            #self.food_want -= 30
-            if type(prey) == human:
+            self.food_want -= 30
+            if type(self) == human:
                 eatcounts[1] += 1
-            elif type(prey) == carnivore:
+            elif type(self) == carnivore:
                 eatcounts[4] += 1
     
     def action(self, humans, carnivores, herbivores, grasses, tree_nuts, eatcounts):
