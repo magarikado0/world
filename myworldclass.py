@@ -9,7 +9,8 @@ class animal:
         self.y = y
         self.life = 1
         self.food_want = 100
-    def migration(self, goal_x, goal_y):#migration
+
+    def migrate(self, goal_x, goal_y):#migration
         if goal_x - self.x > 0:
             self.x += self.speed
         elif goal_x - self.x < 0:
@@ -26,6 +27,7 @@ class animal:
             self.y = 100
         elif self.y < 0:
             self.y = 0
+
     def eat(self, prey):
         prey.life = 0
         if type(prey) == grass:
@@ -33,9 +35,48 @@ class animal:
         elif type(prey) == tree_nut:
             self.food_want -= 20
         elif type(prey) == carnivore:
-            self.food_want -= 30
+            self.food_want -= 40
         else:
-            self.food_want -= 20
+            self.food_want -= 30
+    
+    def action(self, humans, carnivores, herbivores, grasses, tree_nuts):
+        if self.food_want >= 70:
+            if type(self) == human:
+                self.search_prey(carnivores)
+            elif type(self) == carnivore:
+                self.search_prey(humans)
+            elif type(self) == herbivore:
+                self.search_prey(tree_nuts)
+        elif self.food_want >= 40:
+            if type(self) == human:
+                self.search_prey(herbivores)
+            elif type(self) == carnivore:
+                self.search_prey(herbivores)
+            elif type(self) == herbivore:
+                self.search_prey(grasses)
+        elif self.food_want >=10:
+            if type(self) == human:
+                self.search_prey(tree_nuts)
+            elif type(self) == carnivore:
+                self.search_prey(tree_nuts)
+            elif type(self) == herbivore:
+                self.search_prey(grasses)
+    
+    def search_prey(self, prey):
+        dis_min = 200000
+        min_index = 0
+        for index, k in enumerate(prey):
+            if k.life == 1:
+                dis = (self.x - k.x)**2 + (self.y - k.y)**2
+                if dis < dis_min:
+                    dis_min =dis
+                    min_index = index
+        if dis_min <=9:
+            self.eat(prey[min_index])
+        elif dis_min <= 100:
+            self.migrate(prey[min_index].x, prey[min_index].y)
+        else:
+            self.migrate(random.randint(0, 100), random.randint(0,100))
 
 class human(animal):#human
     def __init__(self, id, x, y):
@@ -44,11 +85,13 @@ class human(animal):#human
         self.relation[id] = 0
         self.speed = random.randint(1, 3)
 
+
 class carnivore(animal):
     def __init__(self, id, x, y):
         super(carnivore, self).__init__(id, x, y)
         self.speed = random.randint(1, 3)
         self.strength = 100 - self.speed
+
 
 class herbivore(animal):
     def __init__(self, id, x, y):
@@ -66,9 +109,11 @@ class plant:
     def rebirth(self):
         self.life = 1
 
+
 class grass(plant):
     def __init__(self, id, x, y):
         super(grass, self).__init__(id, x, y)
+
 
 class tree_nut(plant):
     def __init__(self, id, x, y):
@@ -79,7 +124,7 @@ def plot_all(humans, carnivores, herbivores, grasses, tree_nuts):
     plt.clf()
     for i in humans:
         if i.life == 1:
-            plt.scatter(i.x, i.y, s=5, c="brown")
+            plt.scatter(i.x, i.y, s=5, c="black")
     for i in carnivores:
         if i.life == 1:
             plt.scatter(i.x, i.y, s=5, c="red")
@@ -94,7 +139,8 @@ def plot_all(humans, carnivores, herbivores, grasses, tree_nuts):
             plt.scatter(i.x, i.y, s=5, c="pink")
     plt.pause(0.5)
 
-def settinglist(exist, kind):
+
+def setlist(exist, kind):
     if kind == 1:
         for i in range(10):
             exist.append(human(i, random.randint(1, 100),random.randint(1, 100)))
