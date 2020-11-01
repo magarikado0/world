@@ -10,7 +10,7 @@ class animal:
         self.life = 1
         self.food_want = 100
 
-    def migrate(self, goal_x, goal_y):#migration
+    def migrate(self, goal_x, goal_y):
         if goal_x - self.x > 0:
             self.x += self.speed
         elif goal_x - self.x < 0:
