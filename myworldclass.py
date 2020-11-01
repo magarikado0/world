@@ -8,7 +8,7 @@ class animal:
         self.x = x
         self.y = y
         self.life = 1
-        self.food_want = 100
+        self.food_want = 60
 
     def migrate(self, goal_x, goal_y):#migration
         if goal_x - self.x > 0:
@@ -27,42 +27,58 @@ class animal:
             self.y = 100
         elif self.y < 0:
             self.y = 0
+        #self.food_want += 5
 
-    def eat(self, prey):
+    def eat(self, prey, eatcounts):
         prey.life = 0
         if type(prey) == grass:
-            self.food_want -= 10
+            #self.food_want -= 10
+            eatcounts[6] += 1
         elif type(prey) == tree_nut:
-            self.food_want -= 20
+            #self.food_want -= 20
+            if type(self) == human:
+                eatcounts[2] += 1
+            elif type(self) == carnivore:
+                eatcounts[5] += 1
+            else:
+                eatcounts[7] +=1
         elif type(prey) == carnivore:
-            self.food_want -= 40
+            #self.food_want -= 40
+            eatcounts[0] += 1
+        elif type(prey) == human:
+            #self.food_want -= 30
+            eatcounts[3] += 1
         else:
-            self.food_want -= 30
+            #self.food_want -= 30
+            if type(prey) == human:
+                eatcounts[1] += 1
+            elif type(prey) == carnivore:
+                eatcounts[4] += 1
     
-    def action(self, humans, carnivores, herbivores, grasses, tree_nuts):
+    def action(self, humans, carnivores, herbivores, grasses, tree_nuts, eatcounts):
         if self.food_want >= 70:
             if type(self) == human:
-                self.search_prey(carnivores)
+                self.search_prey(carnivores, eatcounts)
             elif type(self) == carnivore:
-                self.search_prey(humans)
+                self.search_prey(humans, eatcounts)
             elif type(self) == herbivore:
-                self.search_prey(tree_nuts)
+                self.search_prey(tree_nuts, eatcounts)
         elif self.food_want >= 40:
             if type(self) == human:
-                self.search_prey(herbivores)
+                self.search_prey(herbivores, eatcounts)
             elif type(self) == carnivore:
-                self.search_prey(herbivores)
+                self.search_prey(herbivores, eatcounts)
             elif type(self) == herbivore:
-                self.search_prey(grasses)
+                self.search_prey(grasses, eatcounts)
         elif self.food_want >=10:
             if type(self) == human:
-                self.search_prey(tree_nuts)
+                self.search_prey(tree_nuts, eatcounts)
             elif type(self) == carnivore:
-                self.search_prey(tree_nuts)
+                self.search_prey(tree_nuts, eatcounts)
             elif type(self) == herbivore:
-                self.search_prey(grasses)
+                self.search_prey(grasses, eatcounts)
     
-    def search_prey(self, prey):
+    def search_prey(self, prey, eatcounts):
         dis_min = 200000
         min_index = 0
         for index, k in enumerate(prey):
@@ -72,7 +88,7 @@ class animal:
                     dis_min =dis
                     min_index = index
         if dis_min <=9:
-            self.eat(prey[min_index])
+            self.eat(prey[min_index], eatcounts)
         elif dis_min <= 100:
             self.migrate(prey[min_index].x, prey[min_index].y)
         else:
@@ -137,7 +153,7 @@ def plot_all(humans, carnivores, herbivores, grasses, tree_nuts):
     for i in tree_nuts:
         if i.life == 1:
             plt.scatter(i.x, i.y, s=5, c="pink")
-    plt.pause(0.5)
+    plt.pause(0.1)
 
 
 def setlist(exist, kind):
