@@ -93,3 +93,25 @@ def plot_all(humans, carnivores, herbivores, grasses, tree_nuts):
         if i.life == 1:
             plt.scatter(i.x, i.y, s=5, c="pink")
     plt.pause(0.5)
+
+def settinglist(exist, kind):
+    if kind == 1:
+        for i in range(10):
+            exist.append(human(i, random.randint(1, 100),random.randint(1, 100)))
+        return exist
+    if kind == 2:
+        for i in range(10):
+            exist.append(carnivore(i, random.randint(0,100), random.randint(0, 100)))
+        return exist
+    if kind == 3:
+        for i in range(10):
+            exist.append(herbivore(i, random.randint(0,100), random.randint(0, 100)))
+        return exist
+    if kind == 4:
+        for i in range(10):
+            exist.append(grass(i, random.randint(0,100), random.randint(0, 100)))
+        return exist
+    if kind == 5:
+        for i in range(10):
+            exist.append(tree_nut(i, random.randint(0, 100), random.randint(0, 100)))
+        return exist

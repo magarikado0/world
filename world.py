@@ -15,22 +15,12 @@ dis_min = 20000
 min_index = 0
 
 count = 0
+human = mwc.settinglist(human, 1)
+carnivore = mwc.settinglist(carnivore, 2)
+herbivore = mwc.settinglist(herbivore, 3)
+grass = mwc.settinglist(grass, 4)
+tree_nut = mwc.settinglist(tree_nut, 5)
 
-for i in range(10):
-    human.append(mwc.human(i, random.randint(0,100), random.randint(0, 100)))
-
-for i in range(10):
-    carnivore.append(mwc.carnivore(i, random.randint(0,100), random.randint(0, 100)))
-
-for i in range(10):
-    herbivore.append(mwc.herbivore(i, random.randint(0,100), random.randint(0, 100)))
-
-for i in range(10):
-    grass.append(mwc.grass(i, random.randint(0,100), random.randint(0, 100)))
-
-for i in range(10):
-    tree_nut.append(mwc.tree_nut(i, random.randint(0, 100), random.randint(0, 100)))
-    
 while(count<100):
     mwc.plot_all(human, carnivore, herbivore, grass, tree_nut)
     for i in human:
