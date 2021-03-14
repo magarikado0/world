@@ -2,15 +2,18 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-class animal:
+plt.xlim(0, 10)
+
+class animal:#生物のクラス
     def __init__(self, id, x, y):
         self.id = id
         self.x = x
         self.y = y
         self.life = 1
         self.food_want = 100
+        self.speed = 0
 
-    def migrate(self, goal_x, goal_y):
+    def migrate(self, goal_x, goal_y):#生物の移動関数
         if goal_x - self.x > 0:
             self.x += self.speed
         elif goal_x - self.x < 0:
@@ -30,7 +33,7 @@ class animal:
         if self.food_want <= 95:
             self.food_want += 5
 
-    def eat(self, prey, eatcounts):
+    def eat(self, prey, eatcounts):#生物の食事関数
         prey.life = 0
         if type(prey) == grass:
             self.food_want -= 10
@@ -56,7 +59,7 @@ class animal:
             elif type(self) == carnivore:
                 eatcounts[4] += 1
     
-    def action(self, humans, carnivores, herbivores, grasses, tree_nuts, eatcounts):
+    def action(self, humans, carnivores, herbivores, grasses, tree_nuts, eatcounts):#生物の行動関数
         if self.food_want >= 70:
             if type(self) == human:
                 self.search_prey(carnivores, eatcounts)
@@ -79,7 +82,7 @@ class animal:
             elif type(self) == herbivore:
                 self.search_prey(grasses, eatcounts)
     
-    def search_prey(self, prey, eatcounts):
+    def search_prey(self, prey, eatcounts):#生物の獲物探索関数
         dis_min = 200000
         min_index = 0
         for index, k in enumerate(prey):
@@ -95,7 +98,7 @@ class animal:
         else:
             self.migrate(random.randint(0, 100), random.randint(0,100))
 
-class human(animal):#human
+class human(animal):#親クラスanimalを継承した人間のクラス
     def __init__(self, id, x, y):
         super(human, self).__init__(id, x, y)
         self.relation = np.zeros(100)
@@ -103,21 +106,21 @@ class human(animal):#human
         self.speed = random.randint(1, 3)
 
 
-class carnivore(animal):
+class carnivore(animal):#親クラスanimalを継承した肉食動物のクラス
     def __init__(self, id, x, y):
         super(carnivore, self).__init__(id, x, y)
         self.speed = random.randint(1, 3)
         self.strength = 100 - self.speed
 
 
-class herbivore(animal):
+class herbivore(animal):#親クラスanimalを継承した草食動物のクラス
     def __init__(self, id, x, y):
         super(herbivore, self).__init__(id, x, y)
         self.speed = random.randint(1, 3)
         self.strengh = 100 - self.speed
 
 
-class plant:
+class plant:#植物のクラス
     def __init__(self, id, x, y):
         self.id = id
         self.x = x
@@ -127,54 +130,57 @@ class plant:
         self.life = 1
 
 
-class grass(plant):
+class grass(plant):#親クラスplantを継承した雑草のクラス
     def __init__(self, id, x, y):
         super(grass, self).__init__(id, x, y)
 
 
-class tree_nut(plant):
+class tree_nut(plant):#親クラスplantを継承した木の実のクラス
     def __init__(self, id, x, y):
         super(tree_nut, self).__init__(id, x, y)
 
 
-def plot_all(humans, carnivores, herbivores, grasses, tree_nuts):
+def plot_all(humans, carnivores, herbivores, grasses, tree_nuts):#すべてのオブジェクトの描画関数
     plt.clf()
+    plt.scatter(0, 0, c = "black")
+    plt.scatter(0, 100, c = "black")
+    plt.scatter(100, 0, c = "black")
+    plt.scatter(100, 100, c = "black")
     for i in humans:
         if i.life == 1:
-            plt.scatter(i.x, i.y, s=5, c="black")
+            plt.scatter(i.x, i.y, s = 5, c = "blue")
     for i in carnivores:
         if i.life == 1:
-            plt.scatter(i.x, i.y, s=5, c="red")
-    for i in herbivores:
-        if i.life == 1:
-            plt.scatter(i.x, i.y, s=5, c="blue")
-    for i in grasses:
-        if i.life == 1:
-            plt.scatter(i.x, i.y, s=5, c="green")
-    for i in tree_nuts:
-        if i.life == 1:
-            plt.scatter(i.x, i.y, s=5, c="pink")
+            plt.scatter(i.x, i.y, s = 5, c = "red")
+    # for i in herbivores:
+    #     if i.life == 1:
+    #         plt.scatter(i.x, i.y, s = 5, c = "blue")
+    # for i in grasses:
+    #     if i.life == 1:
+    #         plt.scatter(i.x, i.y, s = 5, c = "green")
+    # for i in tree_nuts:
+    #     if i.life == 1:
+    #         plt.scatter(i.x, i.y, s = 5, c = "pink")
     plt.pause(0.1)
 
-
-def setlist(exist, kind):
+def generate_object(object, kind):
     if kind == 1:
         for i in range(10):
-            exist.append(human(i, random.randint(1, 100),random.randint(1, 100)))
-        return exist
+            object.append(human(i, random.randint(1, 100),random.randint(1, 100)))
+        return object
     if kind == 2:
         for i in range(10):
-            exist.append(carnivore(i, random.randint(0,100), random.randint(0, 100)))
-        return exist
+            object.append(carnivore(i, random.randint(0,100), random.randint(0, 100)))
+        return object
     if kind == 3:
         for i in range(10):
-            exist.append(herbivore(i, random.randint(0,100), random.randint(0, 100)))
-        return exist
+            object.append(herbivore(i, random.randint(0,100), random.randint(0, 100)))
+        return object
     if kind == 4:
         for i in range(10):
-            exist.append(grass(i, random.randint(0,100), random.randint(0, 100)))
-        return exist
+            object.append(grass(i, random.randint(0,100), random.randint(0, 100)))
+        return object
     if kind == 5:
         for i in range(10):
-            exist.append(tree_nut(i, random.randint(0, 100), random.randint(0, 100)))
-        return exist
+            object.append(tree_nut(i, random.randint(0, 100), random.randint(0, 100)))
+        return object
